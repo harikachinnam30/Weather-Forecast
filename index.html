@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Forecast</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="main">
+    <div class="search">
+        <input type="text" placeholder="Enter Place Name:" spellcheck="false">
+        <button><img src="https://cdn.icon-icons.com/icons2/2768/PNG/512/search_button_icon_176619.png" alt=""></button>
+    </div>
+    <div class="weather">
+        <img src="https://m.media-amazon.com/images/I/61nuuPxUvaL.png" class="weather-icon">
+        <h1 class="temp">22°c</h1>
+        <h2 class="city">New York</h2>     
+</div>
+    <script>
+        const weathericon= document.querySelector(".weather-icon");
+        const apikey="024743bd751623a97ac3f9b5b95da612";
+        const apiurl="https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+        const search=document.querySelector(".search input");
+        const searchbtn=document.querySelector(".search button");
+        async function check(city){
+            const res=await fetch(apiurl +city + `&appid=${apikey}`);
+            var data = await res.json();
+            console.log(data);
+            document.querySelector(".city").innerHTML=data.name;
+            document.querySelector(".temp").innerHTML=Math.round(data.main.temp)+ "°c";
+            if(data.weather[0].main=="Clouds"){
+                weathericon.src="https://cdn-icons-png.flaticon.com/512/1163/1163736.png";
+            }
+            else if(data.weather[0].main=="Clear")
+            {
+                weathericon.src="https://cdn-icons-png.flaticon.com/512/3222/3222800.png";
+            }
+            else if(data.weather[0].main=="Rain")
+            {
+                weathericon.src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRICTzoaXtScPF95jMj9QpWlJBIaZPLFRijCw&usqp=CAU";
+            }
+            else if(data.weather[0].main=="Drizzle")
+            {
+                weathericon.src="https://cdn3d.iconscout.com/3d/premium/thumb/drizzle-weather-7096832-5753008.png";
+            }
+            else if(data.weather[0].main=="Mist")
+            {
+                weathericon.src="https://png.pngtree.com/png-clipart/20220627/original/pngtree-daytime-foggy-weather-clouds-illustration-png-image_8201381.png";
+            }
+        }
+        searchbtn.addEventListener("click",()=>{
+        check(search.value);
+    });
+        
+    </script>
+</body>
+</html>
